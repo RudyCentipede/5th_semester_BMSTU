@@ -1,0 +1,97 @@
+\chapter{Исследовательская часть}
+
+\section{Результаты решения задачи}
+
+В таблице~\ref{tab:mixed-numbering} представлены результаты проверки смешения типов нумерации иллюстрирующих элементов для приложенного набора файлов.
+
+\begin{table}[ht]
+	\centering
+	\small
+	\setlength{\tabcolsep}{4pt}
+	\renewcommand{\arraystretch}{1.15}
+	
+	\caption{Результаты проверки смешения типов нумерации иллюстрирующих элементов}
+	\label{tab:mixed-numbering}
+	
+	\begin{tabular}{|p{4.2cm}|p{5.3cm}|p{5cm}|}
+		\hline
+		\textbf{Название pdf-файла} &
+		\textbf{Признак успешного нахождения подстроки} &
+		\textbf{Координаты первого нахождения подстроки} \\
+		\hline
+		\texttt{\detokenize{_00.pdf}}      & ложь   & -- \\
+		\hline
+		\texttt{\detokenize{_05.pdf}}      & ложь   & -- \\
+		\hline
+		\texttt{\detokenize{_06.pdf}}      & ложь   & -- \\
+		\hline
+		\texttt{\detokenize{_07.pdf}}      & ложь   & -- \\
+		\hline
+		\texttt{\detokenize{_08.pdf}}      & ложь   & -- \\
+		\hline
+		\texttt{\detokenize{_09.pdf}}      & ложь   & -- \\
+		\hline
+		\texttt{\detokenize{_10.pdf}}      & ложь   & -- \\
+		\hline
+		\texttt{\detokenize{_65-1.pdf}}    & ложь   & -- \\
+		\hline
+		\texttt{main (2).pdf}              & истина & стр.~24, строка~9 \\
+		\hline
+		\texttt{ВКР Селез.pdf}             & ложь   & -- \\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+
+\section{Оценка сложности алгоритма}
+
+Пусть:
+\begin{enumerate}
+	\item $P$ --- число страниц в файле;
+	\item $L_{i}$ --- число строк на странице $i$;
+	\item $C_{i}$ --- число символов на странице $i$.
+\end{enumerate}
+
+\bigskip
+
+На странице $i$ алгоритм получает текст длиной  $C_{i}$ и делит его на строки, т.~е. осуществляет один проход по всем символам страницы: $O(C_{i})$.
+
+Дальше для каждой строки $j$ длиной $|line_{i, j}|$ происходит поиск по регулярному выражению поиск работает линейно по длине строки: $O(|line_{i, j}|)$.
+
+Тогда сложность поиска на странице по формуле~\ref{eq1}:
+
+
+\begin{equation}
+	\label{eq1}
+	\begin{gathered}
+	O(C_{i}) + \sum_{j=1}^{L_{i}} O(|line_{i, j}|).
+	\end{gathered}
+\end{equation}
+
+Но сумма длин всех строк на странице --- это и есть $C_{i}$, то есть по формуле~\ref{eq2}:
+
+\begin{equation}
+	\label{eq2}
+	\begin{gathered}
+		\sum_{j=1}^{L_{i}} O(|line_{i, j}|) \approx C_{i}.
+	\end{gathered}
+\end{equation}
+
+Тогда сложность поиска по всему документу~\ref{eq3}:
+
+\begin{equation}
+	\label{eq3}
+	\begin{gathered}
+		O(\sum_{i=1}^{P} C_i) \approx O(N),
+	\end{gathered}
+\end{equation}
+
+где $N$ --- общая длина извлечённого текста.
+
+\section{Вывод}
+
+В данном разделе были приведены результаты проверки смешения типов нумерации иллюстрирующих элементов для приложенного набора файлов и проведена оценка сложности разработанного большими языковыми моделями алгоритма.
+
+
+\clearpage

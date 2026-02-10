@@ -1,0 +1,479 @@
+\chapter{Технологическая часть}
+
+\section{Решение задачи GPT-5.2}
+\subsection{Промпт 1}
+
+Цель --- разработать и реализовать программное обеспечение на языке python для извлечения данных из текстовых файлов, полученных из pdf-файлов с применением библиотеки PyPDF2, с использованием регулярных выражений.
+
+Для достижения цели выполнить следующие задачи.
+1. Разработать регулярные выражения для решения задачи по варианту.
+2. Реализовать функцию для поиска подстроки по варианту в pdf-файле с использованием разработанных регулярных выражений (привести листинг как самой функции, так и списка необходимых для её функционирования библиотек, а также пример вызова функции), возвращающую кортеж вида:
+- значение, определяющее наличие строки согласно заданному регулярному выражению ("истина/ложь");
+- список кортежей (если "ложь", то список пустой) с двумя составляющими каждого кортежа --- строкой, найденной с помощью регулярного выражения, и координатами для определения найденной строки в документе (минимально необходимо указать номер страницы и номер строки документа, в которой найдено вхождение искомой строки. Непосредственно таблицы и изображения строками не считать, но их названия считаются строками).
+3. Реализовать программное обеспечение, принимающее на вход путь к pdf-файлу, использующее функцию из предыдущего пункта.
+4. Проверить реализацию на приложенных к лабораторной работе файлах, привести таблицу с колонками название использованного pdf-файла, признак успешного нахождения подстроки, координаты первого нахождения подстроки. Необходимо приложить файлы, в которых были найдены ошибки, в репозиторий лабораторной работы.
+
+Вариант: Проверка наличия смешения типов нумерации: допустимы либо сквозная нумерация (1, 2, 3...), либо пораздельная (1.1, 1.2,..., 1.N,2.1, 2.2…) для всех иллюстрирующих элементов (нельзя таблицы нумеровать сквозной, а рисунки пораздельной в одном документе).
+
+\subsection{Ответ 1}
+
+На рисунках~\ref{gpt1} --~\ref{gpt2} представлен первый ответ языковой модели\\ GPT-5.2.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt1.png}
+	\caption{Первый ответ GPT-5.2 (часть 1)}
+	\label{gpt1}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt2.png}
+	\caption{Первый ответ GPT-5.2 (часть 2)}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt3.png}
+	\caption{Первый ответ GPT-5.2 (часть 3)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt4.png}
+	\caption{Первый ответ GPT-5.2 (часть 4)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt5.png}
+	\caption{Первый ответ GPT-5.2 (часть 5)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt6.png}
+	\caption{Первый ответ GPT-5.2 (часть 6)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt7.png}
+	\caption{Первый ответ GPT-5.2 (часть 7)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt8.png}
+	\caption{Первый ответ GPT-5.2 (часть 8)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt9.png}
+	\caption{Первый ответ GPT-5.2 (часть 9)}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{gpt10.png}
+	\caption{Первый ответ GPT-5.2 (часть 10)}
+	\label{gpt2}
+\end{figure}
+
+\clearpage
+
+\subsection{Промпт 2}
+
+Вот файлы (были высланы файлы, прикреплённые к лабораторной работе).
+
+\subsection{Ответ 2}
+
+На рисунках~\ref{gpt21} --~\ref{gpt22} представлен второй ответ языковой модели\\ GPT-5.2.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt1_2.png}
+	\caption{Второй ответ GPT-5.2 (часть 1)}
+	\label{gpt21}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt2_2.png}
+	\caption{Второй ответ GPT-5.2 (часть 2)}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt3_2.png}
+	\caption{Второй ответ GPT-5.2 (часть 3)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt4_2.png}
+	\caption{Второй ответ GPT-5.2 (часть 4)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt5_2.png}
+	\caption{Второй ответ GPT-5.2 (часть 5)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt6_2.png}
+	\caption{Второй ответ GPT-5.2 (часть 6)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt7_2.png}
+	\caption{Второй ответ GPT-5.2 (часть 7)}
+	\label{gpt22}
+\end{figure}
+\clearpage
+
+\subsection{Итоговое решение модели GPT-5.2}
+
+На рисунках~\ref{rgpt1} --~\ref{rgpt2} представлено итоговое решение задачи языковой модели GPT-5.2.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt_res1.png}
+	\caption{Итоговое решение GPT-5.2 (часть 1)}
+	\label{rgpt1}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt_res2.png}
+	\caption{Итоговое решение GPT-5.2 (часть 2)}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt_res3.png}
+	\caption{Итоговое решение GPT-5.2 (часть 3)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt_res4.png}
+	\caption{Итоговое решение GPT-5.2 (часть 4)}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gpt_res5.png}
+	\caption{Итоговое решение GPT-5.2 (часть 5)}
+	\label{rgpt2}
+\end{figure}
+\clearpage
+
+\section{Решение задачи DeepSeek V3}
+
+\subsection{Промпт 1}
+
+Цель --- разработать и реализовать программное обеспечение на языке python для извлечения данных из текстовых файлов, полученных из pdf-файлов с применением библиотеки PyPDF2, с использованием регулярных выражений.
+
+Для достижения цели выполнить следующие задачи.
+1. Разработать регулярные выражения для решения задачи по варианту.
+2. Реализовать функцию для поиска подстроки по варианту в pdf-файле с использованием разработанных регулярных выражений (привести листинг как самой функции, так и списка необходимых для её функционирования библиотек, а также пример вызова функции), возвращающую кортеж вида:
+- значение, определяющее наличие строки согласно заданному регулярному выражению ("истина/ложь");
+- список кортежей (если "ложь", то список пустой) с двумя составляющими каждого кортежа --- строкой, найденной с помощью регулярного выражения, и координатами для определения найденной строки в документе (минимально необходимо указать номер страницы и номер строки документа, в которой найдено вхождение искомой строки. Непосредственно таблицы и изображения строками не считать, но их названия считаются строками).
+3. Реализовать программное обеспечение, принимающее на вход путь к pdf-файлу, использующее функцию из предыдущего пункта.
+4. Проверить реализацию на приложенных к лабораторной работе файлах, привести таблицу с колонками название использованного pdf-файла, признак успешного нахождения подстроки, координаты первого нахождения подстроки. Необходимо приложить файлы, в которых были найдены ошибки, в репозиторий лабораторной работы.
+
+Вариант: Проверка наличия смешения типов нумерации: допустимы либо сквозная нумерация (1, 2, 3...), либо пораздельная (1.1, 1.2,..., 1.N,2.1, 2.2…) для всех иллюстрирующих элементов (нельзя таблицы нумеровать сквозной, а рисунки пораздельной в одном документе).
+
+\subsection{Ответ 1}
+
+На рисунках~\ref{d1} --~\ref{d2} представлен первый ответ языковой модели\\ DeepSeek V3.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep1.png}
+	\caption{Первый ответ DeepSeek (часть 1)}
+	\label{d1}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep2.png}
+	\caption{Первый ответ DeepSeek (часть 2)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep3.png}
+	\caption{Первый ответ DeepSeek (часть 3)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep4.png}
+	\caption{Первый ответ DeepSeek (часть 4)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep5.png}
+	\caption{Первый ответ DeepSeek (часть 5)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep6.png}
+	\caption{Первый ответ DeepSeek (часть 6)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep7.png}
+	\caption{Первый ответ DeepSeek (часть 7)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep8.png}
+	\caption{Первый ответ DeepSeek (часть 8)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep9.png}
+	\caption{Первый ответ DeepSeek (часть 9)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep10.png}
+	\caption{Первый ответ DeepSeek (часть 10)}
+	\label{d2}
+\end{figure}
+
+\clearpage
+
+\subsection{Промпт 2}
+
+Давай в Список PDF-файлов для проверки pdf files добавим эти файлы. Они лежат в директории files (были высланы файлы, прикреплённые к лабораторной работе).
+
+\subsection{Ответ 2}
+
+На рисунке~\ref{d22} представлен второй ответ языковой модели DeepSeek V3.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep1_2.png}
+	\caption{Второй ответ DeepSeek}
+	\label{d22}
+\end{figure}
+
+\clearpage
+
+
+\subsection{Итоговое решение модели DeepSeek V3}
+
+На рисунках~\ref{rd1} --~\ref{rd2} представлено итоговое решение задачи языковой модели DeepSeek V3.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep_res1.png}
+	\caption{Итоговое решение модели DeepSeek V3 (часть 1)}
+	\label{rd1}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep_res2.png}
+	\caption{Итоговое решение модели DeepSeek V3 (часть 2)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep_res3.png}
+	\caption{Итоговое решение модели DeepSeek V3 (часть 3)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep_res4.png}
+	\caption{Итоговое решение модели DeepSeek V3 (часть 4)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep_res5.png}
+	\caption{Итоговое решение модели DeepSeek V3 (часть 5)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep_res6.png}
+	\caption{Итоговое решение модели DeepSeek V3 (часть 6)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{deep_res7.png}
+	\caption{Итоговое решение модели DeepSeek V3 (часть 7)}
+	\label{rd2}
+\end{figure}
+
+\clearpage
+
+\section{Решение задачи Gemini 3 Pro}
+
+\subsection{Промпт 1}
+
+Цель --- разработать и реализовать программное обеспечение на языке python для извлечения данных из текстовых файлов, полученных из pdf-файлов с применением библиотеки PyPDF2, с использованием регулярных выражений.
+
+Для достижения цели выполнить следующие задачи.
+1. Разработать регулярные выражения для решения задачи по варианту.
+2. Реализовать функцию для поиска подстроки по варианту в pdf-файле с использованием разработанных регулярных выражений (привести листинг как самой функции, так и списка необходимых для её функционирования библиотек, а также пример вызова функции), возвращающую кортеж вида:
+- значение, определяющее наличие строки согласно заданному регулярному выражению ("истина/ложь");
+- список кортежей (если "ложь", то список пустой) с двумя составляющими каждого кортежа --- строкой, найденной с помощью регулярного выражения, и координатами для определения найденной строки в документе (минимально необходимо указать номер страницы и номер строки документа, в которой найдено вхождение искомой строки. Непосредственно таблицы и изображения строками не считать, но их названия считаются строками).
+3. Реализовать программное обеспечение, принимающее на вход путь к pdf-файлу, использующее функцию из предыдущего пункта.
+4. Проверить реализацию на приложенных к лабораторной работе файлах, привести таблицу с колонками название использованного pdf-файла, признак успешного нахождения подстроки, координаты первого нахождения подстроки. Необходимо приложить файлы, в которых были найдены ошибки, в репозиторий лабораторной работы.
+
+Вариант: Проверка наличия смешения типов нумерации: допустимы либо сквозная нумерация (1, 2, 3...), либо пораздельная (1.1, 1.2,..., 1.N,2.1, 2.2…) для всех иллюстрирующих элементов (нельзя таблицы нумеровать сквозной, а рисунки пораздельной в одном документе).
+
+\subsection{Ответ 1}
+
+На рисунках~\ref{g1} --~\ref{g2} представлен первый ответ языковой модели\\ Gemini 3 Pro.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{gem1.png}
+	\caption{Первый ответ Gemini (часть 1)}
+	\label{g1}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{gem2.png}
+	\caption{Первый ответ Gemini (часть 2)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{gem3.png}
+	\caption{Первый ответ Gemini (часть 3)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{gem4.png}
+	\caption{Первый ответ Gemini (часть 4)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{gem5.png}
+	\caption{Первый ответ Gemini (часть 5)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{gem6.png}
+	\caption{Первый ответ Gemini (часть 6)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{gem7.png}
+	\caption{Первый ответ Gemini (часть 7)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{gem8.png}
+	\caption{Первый ответ Gemini (часть 8)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\textwidth]{gem9.png}
+	\caption{Первый ответ Gemini (часть 9)}
+	\label{g2}
+\end{figure}
+
+\clearpage
+
+
+\subsection{Итоговое решение модели Gemini 3 Pro}
+
+На рисунках~\ref{rg1} --~\ref{rg2} представлено итоговое решение задачи языковой модели Gemini 3 Pro.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gem_res1.png}
+	\caption{Итоговое решение модели Gemini 3 Pro (часть 1)}
+	\label{rg1}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gem_res2.png}
+	\caption{Итоговое решение модели Gemini 3 Pro (часть 2)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gem_res3.png}
+	\caption{Итоговое решение модели Gemini 3 Pro (часть 3)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gem_res4.png}
+	\caption{Итоговое решение модели Gemini 3 Pro (часть 4)}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gem_res5.png}
+	\caption{Итоговое решение модели Gemini 3 Pro (часть 5)}
+	\label{rg2}
+\end{figure}
+
+
+
+\clearpage
+
+\section{Вывод}
+
+В этом разделе были указаны промпты, их результаты, внесённые правки, результаты правок и так далее до получения итогового результата.
+
+\clearpage

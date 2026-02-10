@@ -1,0 +1,200 @@
+\chapter{Технологическая часть}
+
+\section{Средства реализации}
+
+Для реализации алгоритмов был выбран язык C++17~\cite{book_isopp}. Выбор обусловлен тем, что C++ имеет все необходимые стандартные библиотеки для решения задачи.
+
+\section{Реализация алгоритмов}
+
+В листингах~\ref{lst:bruteforce} --~\ref{lst:ant} показаны реализации алгоритмов: полного перебора и муравьиного.
+
+\clearpage
+
+\begin{lstlisting}[
+	language=C++,
+	label=lst:bruteforce,
+	caption={Реализация алгоритма полного перебора},
+	captionpos=b
+	]
+	void solve_bruteforce_iterative() {
+		int perm[MAX_N];
+		for (int i = 0; i < n; ++i)
+			perm[i] = i;
+		bestLenBrute = INF;
+		bool first = true;
+		do {
+			double len = 0.0;
+			bool ok = true;
+			for (int i = 0; i < n - 1; ++i) {
+				int a = perm[i];
+				int b = perm[i + 1];
+				
+				if (distM[a][b] >= INF / 2.0) {
+					ok = false;
+					break;
+				}
+				len += distM[a][b];
+				if (len >= bestLenBrute) {
+					ok = false;
+					break;
+				}
+			}
+			if (ok) {
+				if (first || len < bestLenBrute) {
+					first = false;
+					bestLenBrute = len;
+					memcpy(bestPathBrute, perm, n * sizeof(int));
+				}
+			}
+		} while (std::next_permutation(perm, perm + n));
+	}
+\end{lstlisting}
+
+
+\clearpage
+
+\begin{lstlisting}[
+	language=C++,
+	label=lst:ant,
+	caption={Реализация муравьиного алгоритма},
+	captionpos=b
+	]
+	void run_aco() {
+		init_heuristic();
+		init_pheromone();
+		bestLenACO = INF;
+		for (int iter = 0; iter < MAX_ITER; ++iter) {
+			for (int k = 0; k < NUM_ANTS; ++k)
+				generate_ant_solution(k);
+			
+			int bestAntIter = -1;
+			double bestLenIter = INF;
+			
+			for (int k = 0; k < NUM_ANTS; ++k) {
+				if (antLen[k] < bestLenIter) {
+					bestLenIter = antLen[k];
+					bestAntIter = k;
+				}
+			}
+			
+			if (bestLenIter < bestLenACO) {
+				bestLenACO = bestLenIter;
+				for (int i = 0; i < n; ++i)
+				bestPathACO[i] = antPath[bestAntIter][i];
+			}
+			
+			for (int i = 0; i < n; ++i)
+				for (int j = 0; j < n; ++j)
+					pheromone[i][j] *= (1.0 - RHO);
+			
+			for (int k = 0; k < NUM_ANTS; ++k) {
+				if (antLen[k] >= INF / 2.0)
+					continue;
+			
+				double contrib = QVAL / antLen[k];
+				for (int s = 0; s < n - 1; ++s) {
+					int i = antPath[k][s];
+					int j = antPath[k][s + 1];
+					pheromone[i][j] += contrib;
+				}
+			}
+			if (bestLenACO < INF / 2.0) {
+				double eliteContrib = ELITE_ANTS * QVAL / bestLenACO;
+				for (int s = 0; s < n - 1; ++s) {
+					int i = bestPathACO[s];
+					int j = bestPathACO[s + 1];
+					pheromone[i][j] += eliteContrib;
+				}
+			}
+		}
+	}
+\end{lstlisting}
+
+\clearpage
+
+%\lstinputlisting[label=lst:clust, firstline=150, lastline=181,  caption={Функция кластеризации}, captionpos=b]{../code/graph_dbscan.cpp}
+%\clearpage
+
+\section{Тестирование}
+
+В таблице~\ref{table:tests} представлены результаты тестирования реализации алгоритма полного перебора. Все тесты пройдены успешно.
+\bigskip
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\setlength{\extrarowheight}{3pt}
+\renewcommand{\arraystretch}{1.2} 
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+
+\begin{table}[h]
+	\centering
+	\caption{Результаты тестирования алгоритма полного перебора}
+	\label{table:tests}
+	\setlength{\tabcolsep}{10pt}
+	\setlength{\extrarowheight}{3pt}
+	\renewcommand{\arraystretch}{1.2}
+	
+	\begin{tabularx}{\textwidth}{|c|C{0.35\textwidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+		\hline
+		№ & Входной граф (матрица смежности) & Ожидаемый вывод & Фактический вывод \\ \hline
+		
+		1 &
+		\(
+		\begin{pmatrix}
+			0 & 1  & 10 \\
+			10 & 0 & 1  \\
+			10 & 10 & 0
+		\end{pmatrix}
+		\)
+		&
+		Маршрут: $0 \to 1 \to 2$, $L_{\text{best}} = 2$. &
+		Маршрут: $0 \to 1 \to 2$, $L_{\text{best}} = 2$. \\ \hline
+		
+		2 &
+		\(
+		\begin{pmatrix}
+			0 & 1 & \infty & \infty \\
+			5 & 0 & 1      & \infty \\
+			\infty & 5 & 0 & 1 \\
+			\infty & \infty & 5 & 0
+		\end{pmatrix}
+		\)
+		&
+		Маршрут: $0 \to 1 \to 2 \to 3$, $L_{\text{best}} = 3$. &
+		Маршрут: $0 \to 1 \to 2 \to 3$, $L_{\text{best}} = 3$. \\ \hline
+		
+		3 &
+		\(
+		\begin{pmatrix}
+			0
+		\end{pmatrix}
+		\)
+		&
+		Маршрут: $0$, $L_{\text{best}} = 0$. &
+		Маршрут: $0$, $L_{\text{best}} = 0$. \\ \hline
+		
+		4 &
+		\(
+		\begin{pmatrix}
+			0 & 1 & \infty \\
+			1 & 0 & \infty \\
+			\infty & \infty & 0
+		\end{pmatrix}
+		\)
+		&
+		Незамкнутого маршрута не существует,
+		$L_{\text{best}} = \infty$. &
+		Незамкнутого маршрута не существует,
+		$L_{\text{best}} = \infty$. \\ \hline
+		
+	\end{tabularx}
+\end{table}
+
+
+
+
+\section{Вывод}
+
+В этом разделе были описаны средства реализации алгоритмов. Также были продемонстрированы листинги реализаций: полного перебора и муравьиного алгоритма. Приведены результаты тестирования.
+
+\clearpage

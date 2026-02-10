@@ -1,0 +1,171 @@
+\chapter{Исследовательская часть}
+
+\section{Технические характеристики}
+
+Замеры процессорного времени проводились на ноутбуке ACER Predator со следующими техническими характеристиками:
+\begin{itemize}
+	\item процессор: Intel(R) Core(TM) i7-10750H CPU @ 2.60ГГц 2.59 ГГц,
+	\item ОЗУ: 16 ГБ,
+	\item ОС: Windows 10 Pro 64-разрядная.
+\end{itemize}
+\bigskip
+
+Во время замеров процессорного времени ноутбук был подключен к электропитанию, сторонними приложениями нагружен не был. 
+
+\section{Замеры процессорного времени}
+
+Были проведены замеры времени работы реализаций алгоритмов для данных, соответствующих худшему случаю: когда последовательность полностью состоит из единиц.
+
+Результаты замеров процессорного времени приведены в таблице~\ref{table:time}:
+
+\bigskip
+
+\begin{table}[ht]
+	\caption{Результаты замеров времени работы реализаций алгоритмов подсчёта единиц}
+	\label{table:time}
+	\centering
+	\begin{tabular}{|c|r@{.}l|r@{.}l|}
+		\hline
+		\multicolumn{1}{|c|}{Длина} & \multicolumn{2}{c|}{Рекурсивный} & \multicolumn{2}{c|}{Нерекурсивный} \\
+		\multicolumn{1}{|c|}{последовательности} & \multicolumn{2}{c|}{алгоритм, нс} & \multicolumn{2}{c|}{алгоритм, нс} \\
+		\hline
+		1000 & 6431&51 & 1879&79 \\
+		\hline
+		2000 & 12415&00 & 3916&74 \\
+		\hline
+		3000 & 19764&65 & 6402&30 \\
+		\hline
+		4000 & 25434&50 & 8060&47 \\
+		\hline
+		5000 & 30984&43 & 9787&86 \\
+		\hline
+		6000 & 37403&94 & 11666&33 \\
+		\hline
+		7000 & 44202&55 & 13603&21 \\
+		\hline
+		8000 & 50720&17 & 15071&54 \\
+		\hline
+		9000 & 57141&32 & 17016&54 \\
+		\hline
+		10000 & 64082&05 & 19018&39 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\clearpage
+
+На рисунке~\ref{graph:time} изображён график зависимости времени работы алгоритмов от длины последовательности.
+
+\bigskip
+
+\begin{figure}[ht]
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=0.9\textwidth,
+			height=0.7\textwidth,
+			xlabel={Длина последовательности},
+			ylabel={Время, нс},
+			legend pos=north west,
+			grid=major,
+			xtick={1000,2000,3000,4000,5000,6000,7000,8000,9000,10000},
+			xticklabels={0.1$\times 10^4$,0.2$\times 10^4$,0.3$\times 10^4$,0.4$\times 10^4$,0.5$\times 10^4$,0.6$\times 10^4$,0.7$\times 10^4$,0.8$\times 10^4$,0.9$\times 10^4$,1.0$\times 10^4$},
+			ytick={0,10000,20000,30000,40000,50000,60000,70000},
+			yticklabels={0$\times 10^4$,1$\times 10^4$,2$\times 10^4$,3$\times 10^4$,4$\times 10^4$,5$\times 10^4$,6$\times 10^4$,7$\times 10^4$},
+			x tick label style={rotate=45, anchor=east, font=\small},
+			xlabel style={yshift=5mm},
+			ylabel style={yshift=-3mm},
+			every axis x label/.style={at={(0.5,-0.15)},anchor=north},
+			every axis y label/.style={at={(-0.1,0.5)},anchor=south,rotate=90},
+			scaled x ticks=false,
+			scaled y ticks=false
+			]
+			
+			\addplot table[x=Длина, y=Рекурсивный, col sep=semicolon] {tables/results.csv};
+			\addlegendentry{Рекурсивный}
+			
+			\addplot table[x=Длина, y=Нерекурсивный, col sep=semicolon] {tables/results.csv};
+			\addlegendentry{Нерекурсивный}
+			
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Сравнение времени работы рекурсивного и нерекурсивного алгоритмов}
+	\label{graph:time}
+\end{figure}
+
+
+Из графика~\ref{graph:time} следует, что реализация нерекурсивного алгоритма работает быстрее реализации рекурсивного алгоритма примерно в 3.2 раза.
+
+\section{Теоретическая оценка затрачиваемой памяти}
+
+Размеры типов данных в байтах:
+\begin{itemize}
+	\item $S_{reg} = 8$ -- размер регистра,
+	\item $S_{ret} = 8$ -- размер адреса возврата,
+	\item $S_{int} = 8$ -- размер типа $int$.
+\end{itemize}
+
+\subsection{Рекурсивный алгоритм}
+
+Память, затрачиваемая реализацией рекурсивного алгоритма, в байтах рассчитана по формулам~(\ref{mem:h} --~\ref{mem:total}):
+
+\begin{itemize}
+	\item глубина дерева рекурсивных вызовов рассчитана по формуле~(\ref{mem:h}):
+	\begin{equation}
+		\label{mem:h}
+		R(D) = N,
+	\end{equation}
+	
+	\item память в байтах, затраченная на один рекурсивный вызов, рассчитана по формуле~(\ref{mem:rec}):
+	\begin{equation}
+		\label{mem:rec}
+		M_{reccall} = 19\cdot S_{reg} + S_{ret} = 160,
+	\end{equation}
+	
+	\item память в байтах, затраченная на локальные переменные, рассчитана по формуле~(\ref{mem:local}):
+	\begin{equation}
+		\label{mem:local}
+		M_{local} = 0,
+	\end{equation}
+	
+	\item общая память в байтах для рекурсивного алгоритма рассчитана по формуле~(\ref{mem:total}):
+	\begin{equation}
+		\label{mem:total}
+		M_{total} = (M_{reccall} + M_{local})\cdot (R(D) + 1) = 160N + 160.
+	\end{equation}
+	
+\end{itemize}
+
+\subsection{Нерекурсивный алгоритм}
+
+Память, затрачиваемая реализацией нерекурсивного алгоритма, в байтах рассчитана по формулам~(\ref{mem:iter} --~\ref{mem:i:total}):
+
+\begin{itemize}
+	
+	\item память в байтах, затраченная на вызов функции, рассчитана по формуле~(\ref{mem:iter}):
+	\begin{equation}
+		\label{mem:iter}
+		M_{itercall} = 19\cdot S_{reg} + S_{ret} = 160,
+	\end{equation}
+	
+	\item память в байтах, затраченная на локальные переменные, рассчитана по формуле~(\ref{mem:i:local}):
+	\begin{equation}
+		\label{mem:i:local}
+		M_{local} = 2\cdot S_{int} = 2\cdot 8 = 16,
+	\end{equation}
+	
+	\item общая память в байтах для нерекурсивного алгоритма рассчитана по формуле~(\ref{mem:i:total}):
+	\begin{equation}
+		\label{mem:i:total}
+		M_{total} = M_{itercall} + M_{local} = 160 + 16 = 176.
+	\end{equation}
+	
+\end{itemize}
+
+\section{Вывод}
+
+В данном разделе были описаны технические характеристики машины, на которой проводились замеры времени. Продемонстрированы результаты замеров процессорного времени, был проведён сравнительный анализ времени работы алгоритмов умножения матриц.
+
+Также была проведена теоретическая оценка затрачиваемой реализациями алгоритмов памяти. Для работы рекурсивного алгоритма требуется больше памяти, чем для работы нерекурсивного алгоритма: асимптотика рекурсивного алгоритма -- $O(n)$, а нерекурсивного -- $O(1)$.
+
+
+\clearpage

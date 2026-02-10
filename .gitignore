@@ -1,0 +1,11 @@
+*.aux 
+*.bbl
+*.log
+*.out
+*.blg
+*.toc
+*.gz
+*.exe
+*.json
+*.dot
+*.svg

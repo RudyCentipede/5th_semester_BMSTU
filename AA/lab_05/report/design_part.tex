@@ -1,0 +1,119 @@
+\chapter{Конструкторская часть}
+
+\section{Функциональные требования}
+
+Выполнить кластеризацию вершин графа по числу соседей, находящихся на расстоянии 1 ребра, 2 рёбер, ..., M рёбер (M --- входной параметр). Алгоритм DBSCAN.
+
+\textbf{Входные данные:}
+\begin{itemize}
+	\item файл, содержащий граф в формате graphviz;
+	\item расстояние M;
+	\item минимальное число точек на расстоянии M, чтобы точка считалась ядром.
+\end{itemize}
+
+\textbf{Выходные данные:}
+
+\begin{itemize}
+	\item кластеризованный граф;
+	\item количество кластеров;
+	\item количество вершин в каждом кластере.
+\end{itemize}
+
+\section{Разработка алгоритмов}
+
+В данном разделе представлены схемы алгоритмов работы: последовательного и параллельного DBSCAN, рабочего потока, конвейера обработки данных.
+
+\subsection{Последовательный алгоритм DBSCAN}
+
+На рисунках~\ref{alg:db1} --~\ref{alg:db3} представлена схема работы последовательного алгоритма DBSCAN.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{images/dbscan_1.pdf}
+	\caption{Схема работы последовательного алгоритма DBSCAN (часть 1)}
+	\label{alg:db1}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{images/dbscan_2.pdf}
+	\caption{Схема работы последовательного алгоритма DBSCAN (часть 2)}
+	\label{alg:db2}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{images/dbscan_3.pdf}
+	\caption{Схема работы последовательного алгоритма DBSCAN (часть 3)}
+	\label{alg:db3}
+\end{figure}
+
+\clearpage
+
+\subsection{Параллельный алгоритм DBSCAN}
+
+Модифицированный алгоритм делает параллельно операцию поиска расстояний до достижимых вершин (находящихся не дальше расстояния M).
+
+На рисунках~\ref{alg:db_prl1} --~\ref{alg:db_prl3} представлена схема работы параллельного алгоритма DBSCAN.
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{images/dbscan_prl_1.pdf}
+	\caption{Схема работы параллельного алгоритма DBSCAN (часть 1)}
+	\label{alg:db_prl1}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{images/dbscan_prl_2.pdf}
+	\caption{Схема работы параллельного алгоритма DBSCAN (часть 2)}
+	\label{alg:db_prl2}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{images/dbscan_prl_3.pdf}
+	\caption{Схема работы параллельного алгоритма DBSCAN (часть 3)}
+	\label{alg:db_prl3}
+\end{figure}
+
+\clearpage
+
+\subsection{Рабочий поток}
+
+На рисунке~\ref{alg:worker} представлена схема алгоритма работы рабочего потока.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.85]{images/worker.pdf}
+	\caption{Схема алгоритма работы рабочего потока}
+	\label{alg:worker}
+\end{figure}
+
+\clearpage
+
+\subsection{Конвейер}
+
+На рисунке~\ref{alg:pipeline} представлена схема работы конвейера.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{images/pipeline.pdf}
+	\caption{Схема работы конвейера}
+	\label{alg:pipeline}
+\end{figure}
+
+
+\section{Вывод}
+
+В данном разделе были описаны функциональные требования к программе, построены схемы работы алгоритмов: последовательного DBSCAN, параллельного алгоритма DBSCAN, рабочего потока, конвейера обработки данных.
+\clearpage

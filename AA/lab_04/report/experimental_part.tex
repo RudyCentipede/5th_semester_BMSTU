@@ -1,0 +1,197 @@
+\chapter{Исследовательская часть}
+
+\section{Технические характеристики ЭВМ}
+
+Замеры процессорного времени проводились на ноутбуке ACER Predator со следующими техническими характеристиками:
+\begin{itemize}
+	\item процессор Intel(R) Core(TM) i7-10750H с тактовой частотой 2.60ГГц;
+	\item ОЗУ 16 ГБ;
+	\item ОС Windows 10 Pro 64 разрядная;
+	\item 12 логических ядер.
+\end{itemize}
+\bigskip
+
+Во время замеров процессорного времени ноутбук был подключён к электропитанию, сторонними приложениями нагружен не был. 
+
+\section{Замеры процессорного времени}
+
+\subsection{Последовательная и параллельная реализация}
+
+Были проведены замеры процессорного времени выполнения кластеризации для реализации последовательного алгоритма DBSCAN и реализации параллельного алгоритма DBSCAN, запущенной с единственным рабочим потоком.
+Результаты замеров времени представлены в таблице~\ref{table:benchmark1}.
+
+\begin{table}[ht]
+	\caption{Результаты замеров времени выполнения реализаций последовательного и параллельного алгоритмов DBSCAN}
+	\label{table:benchmark1}
+	\centering
+	\begin{tabular}{|c|r@{.}l|r@{.}l|}
+		\hline
+		\multicolumn{1}{|c|}{Размер} & \multicolumn{2}{c|}{Последовательный} & \multicolumn{2}{c|}{Параллельный} \\
+		\multicolumn{1}{|c|}{графа} & \multicolumn{2}{c|}{DBSCAN, мс} & \multicolumn{2}{c|}{DBSCAN, мс} \\
+		\hline
+		500 & 8&731 & 8&975 \\
+		\hline
+		1000 & 18&728 & 18&995 \\
+		\hline
+		1500 & 33&253 & 34&168  \\
+		\hline
+		2000 & 49&231 & 49&968  \\
+		\hline
+		2500 & 67&042 & 69&009  \\
+		\hline
+		3000 & 95&621 & 99&627  \\
+		\hline
+		3500 & 131&152 & 136&551 \\
+		\hline
+		4000 & 175&648 & 179&641  \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\clearpage
+
+На рисунке~\ref{fig:timesize} изображены графики зависимостей времени работы реализаций алгоритмов от размеров графа.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=0.8\textwidth,
+			height=0.6\textwidth,
+			xlabel={Размер графа},
+			ylabel={Время, мс},
+			legend pos=north west,
+			grid=major,
+			xmin=0,
+			xmax=4500,
+			ymin=0,
+			ymax=190
+			]
+			
+			\addplot table[x=N, y=Seq_ms, col sep=comma] {tables/benchmark_seq_vs_par1.csv};
+			\addlegendentry{Последовательный DBSCAN}
+			
+			\addplot table[x=N, y=Par1_ms, col sep=comma] {tables/benchmark_seq_vs_par1.csv};
+			\addlegendentry{Параллельный DBSCAN с 1 потоком}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Зависимости времени выполнения от размера графа для реализаций последовательного и параллельного алгоритмов DBSCAN}
+	\label{fig:timesize}
+\end{figure}
+
+В среднем реализация параллельного алгоритма DBSCAN, запущенная с единственным рабочим потоком, выполняет задачу на 4 \% медленнее, чем реализация последовательного алгоритма. Это связано с тем, что часть времени выполнения параллельной реализации уходит на диспетчеризацию потоков, включающую в себя создание и запуск рабочего потока.
+
+
+\subsection{Параллельная реализация с множеством потоков}
+
+Были проведены замеры процессорного времени выполнения кластеризации для реализации параллельного алгоритма DBSCAN при К рабочих потоках, К принимает значения 1, 2, 4,..., 8$\cdot$q, где (q --  количество логических ядер процессора). Результаты замеров времени представлены в таблице~\ref{table:threads}.
+
+\clearpage
+
+\begin{table}[ht]
+	\caption{Время выполнения параллельного алгоритма DBSCAN при разном количестве потоков, мс}
+	\label{table:threads}
+	\centering
+	\footnotesize
+	\begin{tabular}{|c|r@{.}l|r@{.}l|r@{.}l|r@{.}l|r@{.}l|r@{.}l|r@{.}l|r@{.}l|r@{.}l|}
+		\hline
+		\multicolumn{1}{|c|}{Размер} & \multicolumn{2}{c|}{1} & \multicolumn{2}{c|}{2} & \multicolumn{2}{c|}{4} & \multicolumn{2}{c|}{8} & \multicolumn{2}{c|}{16} & \multicolumn{2}{c|}{32} & \multicolumn{2}{c|}{64} & \multicolumn{2}{c|}{96} \\
+		\multicolumn{1}{|c|}{графа} & \multicolumn{2}{c|}{поток} & \multicolumn{2}{c|}{потока} & \multicolumn{2}{c|}{потока} & \multicolumn{2}{c|}{потоков} & \multicolumn{2}{c|}{потоков} & \multicolumn{2}{c|}{потока} & \multicolumn{2}{c|}{потока} & \multicolumn{2}{c|}{потоков} \\
+		\hline
+		500 & 8&853 & 7&565 & 7&526 & 7&857 & 8&606 & 9&465 & 11&962 & 13&967 \\
+		\hline
+		1000 & 19&611 & 15&184 & 14&498 & 15&435 & 16&267 & 18&331 & 19&576 & 21&015 \\
+		\hline
+		1500 & 33&394 & 24&134 & 22&412 & 23&101 & 23&213 & 25&324 & 27&263 & 29&197 \\
+		\hline
+		2000 & 47&317 & 35&248 & 29&509 & 29&969 & 30&383 & 32&424 & 34&748 & 37&949 \\
+		\hline
+		2500 & 64&558 & 47&337 & 39&621 & 38&381 & 38&301 & 40&166 & 41&531 & 43&827 \\
+		\hline
+		3000 & 84&906 & 57&963 & 46&076 & 45&704 & 45&545 & 47&784 & 49&498 & 57&148 \\
+		\hline
+		3500 & 108&202 & 72&448 & 56&259 & 53&636 & 53&571 & 54&989 & 57&863 & 65&497 \\
+		\hline
+		4000 & 128&613 & 89&643 & 66&763 & 63&163 & 62&758 & 62&351 & 66&858 & 75&308 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+На рисунке~\ref{fig:threads} изображены графики зависимостей времени работы реализации параллельного алгоритма DBSCAN от размеров графа с разным количеством рабочих потоков.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=0.9\textwidth,
+			height=0.65\textwidth,
+			xlabel={Размер графа},
+			ylabel={Время, мс},
+			legend pos=north west,
+			grid=major,
+			xmin=0,
+			xmax=4500,
+			ymin=0,
+			ymax=140,
+			legend style={nodes={scale=0.7, transform shape}}
+			]
+			
+			% Данные для разного количества потоков
+			\addplot[blue, mark=*, mark size=1.5, thick] 
+			table[x=N, y=Time_ms, col sep=comma] {tables/threads_1.csv};
+			\addlegendentry{1 поток}
+			
+			\addplot[red, mark=square*, mark size=1.5, thick] 
+			table[x=N, y=Time_ms, col sep=comma] {tables/threads_2.csv};
+			\addlegendentry{2 потока}
+			
+			\addplot[green, mark=triangle*, mark size=1.5, thick] 
+			table[x=N, y=Time_ms, col sep=comma] {tables/threads_4.csv};
+			\addlegendentry{4 потока}
+			
+			\addplot[orange, mark=diamond*, mark size=1.5, thick] 
+			table[x=N, y=Time_ms, col sep=comma] {tables/threads_8.csv};
+			\addlegendentry{8 потоков}
+			
+			\addplot[violet, mark=pentagon*, mark size=1.5, thick] 
+			table[x=N, y=Time_ms, col sep=comma] {tables/threads_16.csv};
+			\addlegendentry{16 потоков}
+			
+			\addplot[brown, mark=otimes*, mark size=1.5, thick] 
+			table[x=N, y=Time_ms, col sep=comma] {tables/threads_32.csv};
+			\addlegendentry{32 потока}
+			
+			\addplot[cyan, mark=star, mark size=1.5, thick] 
+			table[x=N, y=Time_ms, col sep=comma] {tables/threads_64.csv};
+			\addlegendentry{64 потока}
+			
+			\addplot[magenta, mark=square, mark size=1.5, thick] 
+			table[x=N, y=Time_ms, col sep=comma] {tables/threads_96.csv};
+			\addlegendentry{96 потоков}
+			
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Зависимости времени выполнения от размера графа для разного количества потоков}
+	\label{fig:threads}
+\end{figure}
+
+\clearpage
+
+В результате анализа результатов замеров времени выполнения реализации параллельного алгоритма DBSCAN был сделан вывод, что не всегда программа выполняет задачу быстрее, чем больше рабочих потоков, например, при 96 потоках реализация алгоритма выполняет задачу в 1,8 раз медленнее, чем при 4 потоках и размере графа в 500 вершин. Это связано с тем, что кроме полезных вычислений много времени уходит на диспетчеризацию потоков.
+
+Рекомендация по выбору количества рабочих потоков для решения задачи кластеризации графа:
+\begin{itemize}
+	\item 4 потока при размерах графа от 500 до 2000 вершин;
+	\item 16 потоков при размерах графа от 2500 до 3500 вершин;
+	\item 32 потока при размерах графа от 4000 вершин.
+\end{itemize}
+
+\section{Вывод}
+
+В данном разделе были описаны технические характеристики машины,
+на которой проводились замеры времени. Продемонстрированы результаты замеров процессорного времени, был проведён сравнительный анализ времени
+работы реализаций последовательного и параллельного алгоритмов DBSCAN. Была сформулирована рекомендация о выборе количества рабочих потоков для решения задачи.
+
+
+\clearpage

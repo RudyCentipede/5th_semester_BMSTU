@@ -1,0 +1,169 @@
+\chapter{Исследовательская часть}
+
+\section{Технические характеристики ЭВМ}
+
+Исследование проводилось на ноутбуке ACER Predator со следующими техническими характеристиками:
+\begin{itemize}
+	\item процессор Intel(R) Core(TM) i7-10750H с тактовой частотой 2.60ГГц;
+	\item ОЗУ 16 ГБ;
+	\item ОС Windows 10 Pro 64 разрядная.
+\end{itemize}
+\bigskip
+
+Во время исследования ноутбук был подключён к электропитанию, сторонними приложениями нагружен не был. 
+
+\section{Параметризация муравьиного алгоритма}
+
+\subsection{Входные графы}
+
+Было построено три ориентированных графа в виде матриц смежности по реальным расстояниям между городами на картах Нидерландов~\cite{article_NL}, Швейцарии~\cite{article_SW} и Австрии~\cite{article_AU}.
+
+В выражении~\ref{NL} содержится матрица смежности ориентированного графа, построенная на основе карты городов Нидерландов.
+
+
+\begin{equation}
+	\label{NL}
+\left( \begin{matrix}
+		0 & 20 & 45 & 60 & 75 & 40 & 90 & 120 & 110 & 185 \\
+		20 & 0 & 30 & 45 & 60 & 55 & 95 & 125 & 115 & 200 \\
+		45 & 30 & 0 & 25 & 35 & 50 & 80 & 110 & 105 & 210 \\
+		60 & 45 & 25 & 0 & 25 & 60 & 90 & 115 & 120 & 220 \\
+		75 & 60 & 35 & 25 & 0 & 55 & 80 & 100 & 105 & 225 \\
+		40 & 55 & 50 & 60 & 55 & 0 & 50 & 75 & 65 & 180 \\
+		90 & 95 & 80 & 90 & 80 & 50 & 0 & 35 & 55 & 195 \\
+		120 & 125 & 110 & 115 & 100 & 75 & 35 & 0 & 60 & 215 \\
+		110 & 115 & 105 & 120 & 105 & 65 & 55 & 60 & 0 & 170 \\
+		185 & 200 & 210 & 220 & 225 & 180 & 195 & 215 & 170 & 0
+	\end{matrix} \right)
+\end{equation}
+
+Нумерация вершин:
+\begin{enumerate}
+	\item Amsterdam;
+	\item Haarlem;
+	\item Leiden;
+	\item Den Haag;
+	\item Rotterdam;
+	\item Utrecht;
+	\item Hertogenbosch;
+	\item Eindhoven;
+	\item Nijmegen;
+	\item Groningen.
+\end{enumerate}
+
+Минимальная длина незамкнутого маршрута равна 455.
+\clearpage
+
+В выражении~\ref{SW} содержится матрица смежности ориентированного графа, построенная на основе карты городов Швейцарии.
+
+
+\begin{equation}
+	\label{SW}
+	\left( \begin{matrix}
+		0 & 48 & 128 &  \infty  & 208 &  \infty  &  \infty  &  \infty  &  \infty  &  \infty  \\
+		72 & 0 & 64 & 128 & 168 & 112 &  \infty  &  \infty  &  \infty  &  \infty  \\
+		192 & 96 & 0 & 72 & 96 & 80 &  \infty  &  \infty  &  \infty  & 60 \\
+		\infty  & 192 & 108 & 0 & 64 & 88 & 104 &  \infty  &  \infty  &  \infty  \\
+		312 & 252 & 144 & 96 & 0 & 60 & 72 & 96 &  \infty  &  \infty  \\
+		\infty  & 168 & 120 & 132 & 40 & 0 &  \infty  & 88 & 120 & 84 \\
+		\infty  &  \infty  &  \infty  & 156 & 108 &  \infty  & 0 & 85 &  \infty  &  \infty  \\
+		\infty  &  \infty  &  \infty  &  \infty  & 144 & 132 & 85 & 0 & 150 &  \infty  \\
+		\infty  &  \infty  &  \infty  &  \infty  &  \infty  & 180 &  \infty  & 150 & 0 &  \infty  \\
+		\infty  &  \infty  & 60 &  \infty  &  \infty  & 56 &  \infty  &  \infty  &  \infty  & 0
+	\end{matrix} \right)
+\end{equation}
+
+Нумерация вершин:
+\begin{enumerate}
+	\item Geneva;
+	\item Lausanne;
+	\item Bern;
+	\item Basel;
+	\item Zurich;
+	\item Luzern;
+	\item St. Gallen;
+	\item Chur;
+	\item Lugano;
+	\item Interlaken.
+\end{enumerate}
+
+Минимальная длина незамкнутого маршрута равна 703.
+\clearpage
+
+В выражении~\ref{AU} содержится матрица смежности ориентированного графа, построенная на основе карты городов Австрии.
+
+
+\begin{equation}
+	\label{AU}
+	\left( \begin{matrix}
+		0 & 72 &  \infty  &  \infty  &  \infty  &  \infty  & 200 &  \infty  &  \infty  & 60 \\
+		48 & 0 & 144 &  \infty  &  \infty  &  \infty  &  \infty  &  \infty  &  \infty  &  \infty  \\
+		\infty  & 96 & 0 & 156 &  \infty  &  \infty  & 152 & 210 &  \infty  &  \infty  \\
+		\infty  &  \infty  & 104 & 0 & 168 &  \infty  & 176 & 160 &  \infty  &  \infty  \\
+		\infty  &  \infty  &  \infty  & 112 & 0 & 216 &  \infty  & 184 &  \infty  &  \infty  \\
+		\infty  &  \infty  &  \infty  &  \infty  & 144 & 0 &  \infty  &  \infty  &  \infty  &  \infty  \\
+		200 &  \infty  & 228 & 264 &  \infty  &  \infty  & 0 & 168 &  \infty  & 128 \\
+		\infty  &  \infty  & 210 & 240 & 276 &  \infty  & 112 & 0 & 72 & 144 \\
+		\infty  &  \infty  &  \infty  &  \infty  &  \infty  &  \infty  &  \infty  & 48 & 0 &  \infty  \\
+		60 &  \infty  &  \infty  &  \infty  &  \infty  &  \infty  & 192 & 216 &  \infty  & 0
+	\end{matrix} \right)
+\end{equation}
+
+Нумерация вершин:
+\begin{enumerate}
+	\item Wien;
+	\item St. Polten;
+	\item Linz;
+	\item Salzburg;
+	\item Innsbruck;
+	\item Bregenz;
+	\item Graz;
+	\item Klagenfurt;
+	\item Villach;
+	\item Eisenstadt.
+\end{enumerate}
+
+Минимальная длина незамкнутого маршрута равна 996.
+\clearpage
+
+
+\subsection{Проведение параметризации}
+
+Была проведена параметризация муравьиного алгоритма с элитными муравьями по параметрам:
+\begin{enumerate}
+	\item $t_{max}$ --- количество итераций;
+	\item $\alpha$ --- коэффициент влияния феромона;
+	\item $\rho$ ---коэффициент испарения феромона.
+\end{enumerate}
+
+\bigskip
+
+Для построения таблиц были выбраны следующие сокращения:
+\begin{enumerate}
+	\item max --- максимальное отклонение;
+	\item avg --- среднее арифметическое отклонение;
+	\item med --- медианное отклонение.
+\end{enumerate}
+
+\bigskip
+
+В приложении A в таблицах~\ref{param-1} --~\ref{param-2} представлены результаты проведённой параметризации.
+
+
+Можно сформулировать следующие рекомендации о выборе параметров:
+\begin{itemize}
+	\item $t_{max} \in (50, 100)$;
+	\item $\alpha \in \{1\}$;
+	\item $\rho \in (0.1, 0.4)$.
+\end{itemize}
+
+В таблице результатов параметризации иногда появляются очень большие отклонения порядка $ \delta \approx 10^9 $ это означает то, что в этих запусках муравьиный алгоритм вообще не нашёл допустимый маршрут. Такие провалы появляются, если $\rho$ близко к 1, так как предыдущий опыт предыдущих муравьёв практически полностью стирается.
+
+
+\section{Вывод}
+
+В данном разделе были описаны технические характеристики машины,
+на которой проводилось исследование. Описаны входные графы. Проведена параметризация муравьиного алгоритма с элитными муравьями, на основе результатов которой даны рекомендации о значениях либо диапазонах значений параметров.
+
+
+\clearpage

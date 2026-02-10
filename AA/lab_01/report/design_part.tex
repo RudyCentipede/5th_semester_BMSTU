@@ -1,0 +1,339 @@
+\chapter{Конструкторская часть}
+
+\section{Функциональные требования}
+
+Разработать программное обеспечение с двумя режимами работы: одиночного выполнения умножения матриц и массированного замера времени выполнения реализаций алгоритмов умножения матриц при варьируемом линейном размере квадратных перемножаемых матриц.
+
+\textbf{Входные данные:}
+\begin{itemize}
+	\item пункт меню (целое число от 0 до 4),
+	\item размеры матрицы,
+	\item элементы матрицы.
+\end{itemize}
+
+\textbf{Выходные данные:}
+
+Результат умножения матриц и результаты замеров процессорного времени выполнения реализаций алгоритмов умножения матриц.
+
+\section{Схемы алгоритмов}
+
+На рисунках~\ref{alg:std} --~\ref{alg:owino4} представлены схемы алгоритмов умножения матриц.
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics{images/standart.png}
+	\caption{Схема стандартного алгоритма умножения матриц}
+	\label{alg:std}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+	\label{wino1}
+	\centering
+	\includegraphics[scale=0.65]{images/winograd_1.png}
+	\caption{Схема алгоритма Винограда (часть 1)}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+	\label{wino2}
+	\centering
+	\includegraphics[scale=0.8]{images/winograd_2.png}
+	\caption{Схема алгоритма Винограда (часть 2)}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+	\label{wino3}
+	\centering
+	\includegraphics[scale=0.8]{images/winograd_3.png}
+	\caption{Схема алгоритма Винограда (часть 3)}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+	\label{owino1}
+	\centering
+	\includegraphics[scale=0.8]{images/winograd_opt_1.png}
+	\caption{Схема оптимизированного алгоритма Винограда (часть 1)}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+	\label{owino2}
+	\centering
+	\includegraphics[scale=0.9]{images/winograd_opt_2.png}
+	\caption{Схема оптимизированного алгоритма Винограда (часть 2)}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+	\label{owino3}
+	\centering
+	\includegraphics[scale=0.7]{images/winograd_opt_3.png}
+	\caption{Схема оптимизированного алгоритма Винограда (часть 3)}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{images/winograd_opt_4.png}
+	\caption{Схема оптимизированного алгоритма Винограда (часть 4)}
+	\label{alg:owino4}
+\end{figure}
+\clearpage
+
+\section{Модель вычислений}
+
+Чтобы вычислить трудоёмкость алгоритмов, введена следующая модель вычислений:
+
+\begin{enumerate}
+	\item базовые операции:
+	\begin{itemize}
+		\item трудоёмкость операций из списка~(\ref{costOne}) равна 1:
+		\begin{equation}
+			\label{costOne}
+			\begin{gathered}
+			=, +, \mathrel{+}=, -, \mathrel{-}=, ++, --, ==, \mathrel{!}=, <, <=, >=, >, [], \&\&,\\
+			 \&, >>, <<, ||, |
+			\end{gathered}
+		\end{equation}
+		\item трудоёмкость операций из списка~(\ref{costTwo}) равна 2:
+		\begin{equation}
+			\label{costTwo}
+			\begin{gathered}
+				*, \mathrel{*}=, /, \mathrel{/}=, \%, \mathrel{\%}=
+			\end{gathered}
+		\end{equation}
+	\end{itemize}
+	\item трудоёмкость условного перехода равна 0,
+	\item трудоёмкость условного оператора по формуле~(\ref{if}):
+	\begin{equation}
+		\label{if}
+		f_{if} = f_{\text{условия}} + 
+		\begin{cases}
+			min(f_A, f_B), & \text{-- лучший случай}\\
+			max(f_A, f_B) & \text{-- худший случай}
+		\end{cases}
+	\end{equation}
+	\item трудоёмкость цикла по формуле~(\ref{for}):
+	\begin{equation}
+		\label{for}
+		\begin{gathered}
+			f_{for} = f_{\text{инициализации}} + f_{\text{сравнения}} + M\cdot(f_{\text{тела}} + f_{\text{инкремента}} + f_{\text{сравнения}})
+		\end{gathered}
+	\end{equation}
+	где $M$ -- число итераций
+\end{enumerate}
+
+\section{Трудоёмкость алгоритмов}
+\subsection{Стандартный алгоритм умножения матриц}
+
+Трудоёмкость стандартного алгоритма рассчитана по формулам~(\ref{std:first} --~\ref{std:last}):
+\begin{equation}
+	\label{std:first}
+	f_{firstCycle} = 2 + N \cdot (2 + f_{secondCycle})
+\end{equation}
+\begin{equation}
+	f_{secondCycle} = 2 + Q \cdot (2 + f_{thirdCycle})
+\end{equation}
+\begin{equation}
+	f_{thirdCycle} = 2 + M \cdot (2 + f_{body})
+\end{equation}
+\begin{equation}
+	f_{body} = 1 + 8 + 1 + 2 = 12
+\end{equation}
+\begin{equation}
+	\label{std:last}
+	f_{algo} = 2 + N \cdot (2 + 2 + Q \cdot (2 + 2 + M \cdot (2 + 12))) = 14NQM + 4NQ + 4N + 2
+\end{equation}
+
+Асимптотическая оценка временной сложности алгоритма: $O(14NQM)$. В частном случае квадратных матриц с линейной размерностью N: $O(N^3)$
+
+\subsection{Алгоритм Винограда}
+
+\begin{itemize}
+	\item трудоёмкость инициализации массивов mulH и mulV рассчитана по формуле~(\ref{init}):
+	\begin{equation}
+		\label{init}
+		f_{init} = N + M
+	\end{equation}
+	\item трудоёмкость вычисления mulH рассчитана по формулам~(\ref{mulH:first}) --~(\ref{mulH:last}):
+	\begin{equation}
+		\label{mulH:first}
+		f_{firstCycle} = 2 + N \cdot (2 + f_{secondCycle})
+	\end{equation}
+	\begin{equation}
+		f_{secondCycle} = 4 + \frac{M}{2} \cdot (4 + f_{body})
+	\end{equation}
+	\begin{equation}
+		f_{body} = 1 + 6 + 1 + 2 + 5 = 15
+	\end{equation}
+	\begin{equation}
+		\label{mulH:last}
+		f_{mulH} = 2 + N \cdot (2 + 4 + \frac{M}{2} \cdot (4 + 15)) = \frac{19}{2} NM + 6N + 2
+	\end{equation}
+	\item трудоёмкость вычисления mulV рассчитана по формулам~(\ref{mulV:first}) --~(\ref{mulV:last}):
+	\begin{equation}
+		\label{mulV:first}
+		f_{firstCycle} = 2 + N \cdot (2 + f_{secondCycle})
+	\end{equation}
+	\begin{equation}
+		f_{secondCycle} = 4 + M/2 \cdot (4 + f_{body})
+	\end{equation}
+	\begin{equation}
+		f_{body} = 1 + 6 + 1 + 2 + 5 = 15
+	\end{equation}
+	\begin{equation}
+		\label{mulV:last}
+		f_{mulV} = 2 + N \cdot (2 + 4 + \frac{M}{2} \cdot (4 + 15)) = \frac{19}{2} NM + 6N + 2
+	\end{equation}
+
+	\item трудоёмкость главного цикла рассчитана по формулам~(\ref{cycle:first}) --~(\ref{cycle:last}):
+	\begin{equation}
+		\label{cycle:first}
+		f_{firstCycle} = 2 + N \cdot (2 + f_{secondCycle})
+	\end{equation}
+	\begin{equation}
+		f_{secondCycle} = 2 + Q \cdot (2 + 7 + f_{thirdCycle})
+	\end{equation}
+	\begin{equation}
+		f_{thirdCycle} = 4 + \frac{M}{2} \cdot (4 + f_{body})
+	\end{equation}
+	\begin{equation}
+		f_{body} = 12 + 3 + 2 + 1 + 10 = 28
+	\end{equation}
+	\begin{equation}
+		\label{cycle:last}
+		\begin{gathered}
+		f_{cycle} = 2 + N \cdot (2 + 2 + Q \cdot (2 + 7 + 4 + \frac{M}{2} \cdot (4 + 28))) = \\ = 16NQM + 13NQ + 4N + 2
+		\end{gathered}
+	\end{equation}
+	\item трудоёмкость цикла, нужного для подсчёта значений при нечётном размере матрицы, расчитана по формуле~(\ref{odd}):
+	\begin{equation}
+		\label{odd}
+		f_{odd} = 3 + 
+		\begin{cases}
+			2 + N \cdot (2 + 2 + Q \cdot (2 + 14)), & \text{-- нечётный размер} \\
+			0, & \text{-- иначе}
+		\end{cases}
+	\end{equation}
+\end{itemize}
+
+Трудоёмкость алгоритма Винограда для худшего случая, когда у матрицы нечётный размер, рассчитана по формуле~(\ref{worst}):
+\begin{equation}
+	\label{worst}
+	\begin{gathered}
+	f_{algoWorst} = f_{init} + f_{mulH} + f_{mulV} + f{cycle} + f_{odd} = \\ = N + M + \frac{19}{2} NM + 6N + 2 + \frac{19}{2} NM + 6N + 2 + 16NQM +\\ + 13NQ + 4N + 2 + 3 + 2 + N \cdot (2 + 2 + Q \cdot (2 + 14))= \\ = 16NQM + 29NQ + 19NM + 21N + M + 11
+	\end{gathered}
+\end{equation}
+
+Трудоёмкость алгоритма Винограда для лучшего случая, когда у матрицы чётный размер, рассчитана по формуле~(\ref{best}):
+\begin{equation}
+	\label{best}
+	\begin{gathered}
+		f_{algoBest} = f_{init} + f_{mulH} + f_{mulV} + f{cycle} + f_{odd} = \\ = N + M + \frac{19}{2} NM + 6N + 2 + \frac{19}{2} NM + 6N + 2 + 16NQM +\\ + 13NQ + 4N + 2 + 3 = 16NQM + 13NQ + 19NM + 17N + M + 9
+	\end{gathered}
+\end{equation}
+
+Асимптотическая оценка временной сложности алгоритма для худшего и лучшего случая: $O(16NQM)$. В частном случае квадратных матриц с линейной размерностью N: $O(N^3)$
+
+\subsection{Оптимизированный алгоритм Винограда}
+
+\begin{itemize}
+	\item трудоёмкость инициализации массивов mulH и mulV рассчитана по формуле~(\ref{o:init}):
+	\begin{equation}
+		\label{o:init}
+		f_{init} = N + M
+	\end{equation}
+	
+	\item трудоёмкость предварительного вычисления $\frac{M}{2}$ равна 3,
+	\item трудоёмкость вычисления mulH рассчитана по формулам~(\ref{o:mulH:first}) --~(\ref{o:mulH:last}):
+	\begin{equation}
+		\label{o:mulH:first}
+		f_{firstCycle} = 2 + N \cdot (5 + f_{secondCycle})
+	\end{equation}
+	\begin{equation}
+		f_{secondCycle} = 2 + \frac{M}{2} \cdot (2 + f_{body})
+	\end{equation}
+	\begin{equation}
+		f_{body} = 1 + 4 + 1 + 2 + 5 = 13
+	\end{equation}
+	\begin{equation}
+		\label{o:mulH:last}
+		f_{mulH} = 2 + N \cdot (5 + 2 + \frac{M}{2} \cdot (2 + 13)) = \frac{15}{2} NM + 7N + 2
+	\end{equation}
+	\item трудоёмкость вычисления mulV рассчитана по формулам~(\ref{o:mulV:first} --~(\ref{o:mulV:last}):
+	\begin{equation}
+		\label{o:mulV:first}
+		f_{firstCycle} = 2 + N \cdot (5 + f_{secondCycle})
+	\end{equation}
+	\begin{equation}
+		f_{secondCycle} = 2 + \frac{M}{2} \cdot (2 + f_{body})
+	\end{equation}
+	\begin{equation}
+		f_{body} = 1 + 4 + 1 + 2 + 5 = 13
+	\end{equation}
+	\begin{equation}
+		\label{o:mulV:last}
+		f_{mulV} = 2 + N \cdot (5 + 2 + \frac{M}{2} \cdot (2 + 13)) = \frac{15}{2} NM + 7N + 2
+	\end{equation}
+	
+	\item трудоёмкость главного цикла рассчитана по формулам~(\ref{o:cycle:first} --~(\ref{o:cycle:last}):
+	\begin{equation}
+		\label{o:cycle:first}
+		f_{firstCycle} = 2 + N \cdot (2 + 4 + f_{secondCycle})
+	\end{equation}
+	\begin{equation}
+		f_{secondCycle} = 2 + Q \cdot (2 + 7 + f_{thirdCycle})
+	\end{equation}
+	\begin{equation}
+		f_{thirdCycle} = 2 + \frac{M}{2} \cdot (2 + 3 + f_{body})
+	\end{equation}
+	\begin{equation}
+		f_{body} = 4 + 2 + 6 + 2 = 14
+	\end{equation}
+	\begin{equation}
+		\label{o:cycle:last}
+		\begin{gathered}
+			f_{cycle} = 2 + N \cdot (6 + 2 + Q \cdot (2 + 7 + 2 + \frac{M}{2} \cdot (5 + 14))) = \\ = \frac{19}{2} NQM + 11NQ + 8N + 2
+		\end{gathered}
+	\end{equation}
+	\item трудоёмкость цикла, нужного для подсчёта значений при нечётном размере матрицы, расчитана по формуле~(\ref{o:odd}):
+	\begin{equation}
+		\label{o:odd}
+		f_{odd} = 3 + 
+		\begin{cases}
+			4 + N \cdot (2 + 7 + 2 + Q \cdot (2 + 8)), & \text{-- нечётный размер} \\
+			0, & \text{-- иначе}
+		\end{cases}
+	\end{equation}
+\end{itemize}
+
+Трудоёмкость оптимизированного алгоритма Винограда для худшего случая, когда у матрицы нечётный размер, рассчитана по формуле~(\ref{o:worst}):
+\begin{equation}
+	\label{o:worst}
+	\begin{gathered}
+		f_{algoWorst} = f_{init} + f_{mulH} + f_{mulV} + f{cycle} + f_{odd} = \\ = N + M + \frac{15}{2} NM + 7N + 2 + \frac{15}{2} NM + 7N + 2 + \frac{19}{2}NQM +\\ + 11NQ + 8N + 2 + 3 + 4 + N \cdot (2 + 7 + 2 + Q \cdot (2 + 8))= \\ = \frac{19}{2}NQM + 21NQ + 15NM + 34N + M + 13
+	\end{gathered}
+\end{equation}
+
+Трудоёмкость оптимизированного алгоритма Винограда для лучшего случая, когда у матрицы чётный размер, рассчитана по формуле~(\ref{o:best}):
+\begin{equation}
+	\label{o:best}
+	\begin{gathered}
+		f_{algoBest} = f_{init} + f_{mulH} + f_{mulV} + f{cycle} + f_{odd} = \\ = N + M + \frac{15}{2} NM + 7N + 2 + \frac{15}{2} NM + 7N + 2 + \frac{19}{2}NQM +\\ + 11NQ + 8N + 2 + 3 = \frac{19}{2}NQM + 11NQ + 15NM + 23N + M + 9
+	\end{gathered}
+\end{equation}
+
+Асимптотическая оценка временной сложности алгоритма для худшего и лучшего случая: $O(\frac{19}{2}NQM)$. В частном случае квадратных матриц с линейной размерностью N: $O(N^3)$
+\clearpage
+
+\section{Вывод}
+
+В данном разделе были описаны функциональные требования к программе, построены схемы алгоритмов умножения матриц: стандартного, алгоритма Винограда и оптимизированного алгоритма Винограда. 
+
+Была введена модель вычислений, в соответствии с которой были рассчитаны трудоёмкости алгоритмов умножения матриц. Проведённая оценка трудоемкости алгоритмов показала, что трудоёмкость выполнения алгоритма Винограда в случае оптимизации в 1.68 раз меньше, чем у простого алгоритма Винограда.
+
+\clearpage

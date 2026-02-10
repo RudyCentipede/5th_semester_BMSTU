@@ -1,0 +1,114 @@
+\chapter{Технологическая часть}
+
+\section{Средства реализации}
+
+Для реализации алгоритмов был выбран язык C++. Выбор обусловлен тем, что С++ статически типизированный язык программирования, в нём нет сборщика мусора, имеется стандартная библиотека для замера процессорного времени.
+
+Для замера процессорного времени использовалась функция clock() из модуля ctime~\cite{book_iso}.
+
+Для создания нативных потоков использовался класс threads~\cite{book_isopp}.
+
+Был использован шаблон класса lock\_guard для работы с мьютексом и функция захвата/освобождения мьютекса guard()~\cite{book_isopp}.
+
+\section{Реализация алгоритмов}
+
+В листингах~\ref{lst:std} --~\ref{lst:clust} показаны реализации алгоритмов: рекурсивного и нерекурсивного.
+
+\bigskip
+
+\lstinputlisting[label=lst:std, firstline=195, lastline=210,  caption={Реализация последовательного алгоритма DBSCAN}, captionpos=b]{../code/graph_dbscan.cpp}
+
+\clearpage
+
+\lstinputlisting[label=lst:par, firstline=212, lastline=247,  caption={Реализация параллельного алгоритма DBSCAN}, captionpos=b]{../code/graph_dbscan.cpp}
+
+\clearpage
+
+\lstinputlisting[label=lst:clust, firstline=150, lastline=181,  caption={Функция кластеризации}, captionpos=b]{../code/graph_dbscan.cpp}
+\clearpage
+
+\section{Функциональные тесты}
+
+В таблице~\ref{table:tests} представлены результаты функционального тестирования реализаций: последовательного алгоритма DBSCAN и параллельного. Каждая реализация каждого алгоритма прошла тесты успешно.
+\bigskip
+
+\begin{table}[ht]
+	\caption{Результаты функционального тестирования реализаций алгоритма DBSCAN}
+	\label{table:tests}
+	\centering
+	\footnotesize
+	\begin{tabular}{|p{2cm}|c|c|p{2.5cm}|p{2.5cm}|}
+		\hline
+		\textbf{Граф} & \textbf{M} & \textbf{minPts} & \textbf{Ожидаемый результат} & \textbf{Фактический результат} \\
+		\hline
+		\begin{minipage}{2cm}
+			1->2;\\
+			2->3;\\
+			3->4;\\
+			5->6;\\
+			6->7;\\
+			8;
+		\end{minipage} 
+		& 2 & 2 & 
+		\begin{minipage}{2.5cm}
+			clusters: [[1,2,3,4], [5,6,7]]\\
+			noise: [8]
+		\end{minipage} & 
+		\begin{minipage}{2.5cm}
+			clusters: [[1,2,3,4], [5,6,7]]\\
+			noise: [8]
+		\end{minipage} \\
+		\hline
+		\begin{minipage}{2cm}
+			Пусто
+		\end{minipage}
+		& 1 & 3 & 
+		\begin{minipage}{2.5cm}
+			clusters: []\\
+			noise: []
+		\end{minipage} & 
+		\begin{minipage}{2.5cm}
+			clusters: []\\
+			noise: []
+		\end{minipage} \\
+		\hline
+		\begin{minipage}{2cm}
+			1;\\
+			2;\\
+			3;
+		\end{minipage}
+		& 2 & 2 & 
+		\begin{minipage}{2.5cm}
+			clusters: []\\
+			noise: [1,2,3]
+		\end{minipage} & 
+		\begin{minipage}{2.5cm}
+			clusters: []\\
+			noise: [1,2,3]
+		\end{minipage} \\
+		\hline
+		\begin{minipage}{2cm}
+			1->2;\\
+			2->3;\\
+			3->4;\\
+			4->5;
+		\end{minipage}
+		& 3 & 1 & 
+		\begin{minipage}{2.5cm}
+			clusters: [[1,2,3,4,5]]\\
+			noise: []
+		\end{minipage} & 
+		\begin{minipage}{2.5cm}
+			clusters: [[1,2,3,4,5]]\\
+			noise: []
+		\end{minipage} \\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+\section{Вывод}
+
+В этом разделе были описаны средства реализации алгоритмов. Также были продемонстрированы листинги реализаций последовательного и параллельного алгоритмов DBSCAN. Приведены результаты функционального тестирования.
+
+\clearpage

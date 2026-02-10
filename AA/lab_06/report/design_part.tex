@@ -1,0 +1,193 @@
+\chapter{Конструкторская часть}
+
+\section{Функциональные требования}
+
+Ориентированный граф с элитными муравьями, карта для воздухоплавателей, время с учётом направления ветра, горы пролететь невозможно.
+
+\textbf{Входные данные:}
+\begin{itemize}
+	\item граф в виде матрицы смежности;
+	\item $t_{max}$ --- время жизни колонии муравьёв (количество итераций);
+	\item $\alpha$ --- коэффициент влияния феромона;
+	\item $\beta$ --- коэффициент влияния веса ребра;
+	\item $\rho$ --- коэффициент испарения феромона;
+	\item $Q$ --- квота феромона 1 муравья на 1 день;
+	\item $e$ --- количество элитных муравьёв.
+	
+\end{itemize}
+
+\textbf{Выходные данные:}
+
+\begin{itemize}
+	\item оптимальный маршрут;
+	\item длина оптимального маршрута.
+\end{itemize}
+
+\section{Разработка алгоритмов}
+
+В данном разделе представлены схемы алгоритмов работы: полного перебора и муравьиного алгоритма с элитными муравьями.
+
+\subsection{Алгоритм полного перебора}
+
+На рисунке~\ref{brute} представлена схема работы алгоритма полного перебора для решения задачи коммивояжёра.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{images/brute.pdf}
+	\caption{Схема работы алгоритма полного перебора}
+	\label{brute}
+\end{figure}
+
+\clearpage
+
+
+
+\subsection{Муравьиный алгоритм с элитными муравьями}
+
+На рисунке~\ref{ant} представлена схема работы муравьиного алгоритма с элитными муравьями для решения задачи коммивояжёра.
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.86]{images/ant.pdf}
+	\caption{Схема работы муравьиного алгоритма с элитными муравьями}
+	\label{ant}
+\end{figure}
+
+\clearpage
+
+\section{Модель вычислений}
+
+Чтобы вычислить трудоёмкость алгоритмов, введена следующая модель вычислений:
+
+\begin{enumerate}
+	\item базовые операции:
+	\begin{itemize}
+		\item трудоёмкость операций из списка~\ref{costOne} равна 1:
+		\begin{equation}
+			\label{costOne}
+			\begin{gathered}
+				=, +, \mathrel{+}=, -, \mathrel{-}=, ++, --, ==, \mathrel{!}=, <, <=, >=, >, [], \&\&,\\
+				\&, >>, <<, ||, |;
+			\end{gathered}
+		\end{equation}
+		\item трудоёмкость операций из списка~\ref{costTwo} равна 2:
+		\begin{equation}
+			\label{costTwo}
+			\begin{gathered}
+				*, \mathrel{*}=, /, \mathrel{/}=, \%, \mathrel{\%}=;
+			\end{gathered}
+		\end{equation}
+	\end{itemize}
+	\item трудоёмкость условного перехода равна 0;
+	\item трудоёмкость условного оператора по формуле~(\ref{if}):
+	\begin{equation}
+		\label{if}
+		f_{if} = f_{\text{условия}} + 
+		\begin{cases}
+			min(f_A, f_B) & \text{--- лучший случай,}\\
+			max(f_A, f_B) & \text{--- худший случай;}
+		\end{cases}
+	\end{equation}
+	\item трудоёмкость цикла по формуле~(\ref{for}):
+	\begin{equation}
+		\label{for}
+		\begin{gathered}
+			f_{for} = f_{\text{инициализации}} + f_{\text{сравнения}} + M\cdot(f_{\text{тела}} + \\+ f_{\text{инкремента}} + f_{\text{сравнения}}),
+		\end{gathered}
+	\end{equation}
+	где $M$ --- число итераций.
+\end{enumerate}
+
+\section{Трудоёмкость алгоритмов}
+
+\subsection{Трудоёмкость алгоритма полного перебора}
+
+Трудоёмкость алгоритма полного перебора для худшего случая рассчитана по формуле~(\ref{eq:brut}):
+
+\begin{equation}
+	\label{eq:brut}
+	\begin{gathered}
+		f = 2 + N\cdot (2 + 2) + 1 + N!\cdot (2 + 2 + (N - 1)\cdot (3 + 3 + 4 + 2) +\\ + 2 + 2 + 2) = 3 + 4N + 12N\cdot N! - 2\cdot N!,
+	\end{gathered}
+\end{equation}
+
+где $N$ --- количество вершин графа.
+
+Асимптотическая оценка временной сложности алгоритма: $O(N\cdot N!)$.
+
+
+\subsection{Трудоёмкость муравьиного алгоритма}
+
+Пусть $T$ --- число итераций, $N$ --- количество вершин графа, $A = N$ --- количество муравьёв.
+
+Трудоёмкость муравьиного алгоритма рассчитана по формуле~(\ref{eq:ant0}):
+
+\begin{equation}
+	\label{eq:ant0}
+	\begin{gathered}
+		f = f_{initVis} + f_{initPher} + 2 + T\cdot (f_{path} + f_{findBest} + f_{upd} + 2),
+	\end{gathered}
+\end{equation}
+где $f_{initVis}$ --- трудоёмкость инициализации матрицы видимости, $f_{initPher}$ --- трудоёмкость инициализации матрицы феромона, $f_{path}$ --- трудоёмкость построения маршрутов муравьями, $f_{findBest}$ --- трудоёмкость нахождения лучшего маршрута, $f_{upd}$ --- трудоёмкость обновления матрицы феромона.
+
+Трудоёмкость инициализации матрицы видимости рассчитана по формуле~(\ref{eq:ant1}):
+
+\begin{equation}
+	\label{eq:ant1}
+	\begin{gathered}
+		f_{initVis} = 2 + N\cdot (4 + 16N) = 2 + 4N + 16N^2.
+	\end{gathered}
+\end{equation}
+
+Трудоёмкость инициализации матрицы феромона рассчитана по формуле~(\ref{eq:ant2}):
+
+\begin{equation}
+	\label{eq:ant2}
+	\begin{gathered}
+		f_{initPher} = 2 + N\cdot (4 + 12N) = 2 + 4N + 12N^2.
+	\end{gathered}
+\end{equation}
+
+Трудоёмкость построения маршрутов муравьями рассчитана по формуле~(\ref{eq:ant3}):
+
+\begin{equation}
+	\label{eq:ant3}
+	\begin{gathered}
+		f_{path} = 2 + N\cdot (11 + N\cdot (6 + N\cdot (8 + 3 + 3 + 6 + 6))) = \\ = 2 + N\cdot (11 + 6N + 26N^2) = 2 + 11N + 6N^2 + 26N^3.
+	\end{gathered}
+\end{equation}
+
+Трудоёмкость нахождения лучшего маршрута рассчитана по формуле~(\ref{eq:ant4}):
+
+\begin{equation}
+	\label{eq:ant4}
+	\begin{gathered}
+		f_{findBest} = 2 + 2 + N\cdot (2 + 2 + 1 + 2) + 2 + 2 + N\cdot (4 + 2) =\\ = 8 + 13N.
+	\end{gathered}
+\end{equation}
+
+Трудоёмкость обновления матрицы феромона рассчитана по формуле~(\ref{eq:ant5}):
+
+\begin{equation}
+	\label{eq:ant5}
+	\begin{gathered}
+		f_{upd} = 2 + N\cdot (2 + N\cdot (2 + 1 + 2 + 2) + 2) + 2 + N\cdot (2 + \\ + 2 + 1 + 2 + 1 + 2 + (N - 1)\cdot (3 + 4 + 3 + 2) + 2) + 4 + 1 + \\ + 2 +(N - 1)\cdot (2 + 3 + 3 + 2) = 1 + 14N + 19N^2.
+	\end{gathered}
+\end{equation}
+
+Общая трудоёмкость рассчитана по формуле~(\ref{eq:ant6}):
+
+\begin{equation}
+	\label{eq:ant6}
+	\begin{gathered}
+		f = 2 + 4N + 16N^2 + 2 + 4N + 12N^2 + 2 + T\cdot (2 + 11N + 6N^2 + \\ + 26N^3 +  8 + 13N + 1 + 14N + 19N^2 + 2) = 6 + 8N + 28N^2 + \\ + 13T + 38TN + 25TN^2 + 26TN^3.
+	\end{gathered}
+\end{equation}
+
+Асимптотическая оценка временной сложности алгоритма: $O(T\cdot N^3)$.
+
+\section{Вывод}
+
+В данном разделе были описаны функциональные требования к программе, построены схемы работы алгоритмов решения задачи коммивояжёра: метода полного перебора и муравьиного алгоритма, выполнена оценка трудоёмкости алгоритмов.
+\clearpage

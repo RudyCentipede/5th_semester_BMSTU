@@ -1,0 +1,94 @@
+\chapter{Исследовательская часть}
+
+\section{Графовые модели}
+\subsection{Граф управления}
+На рисунках~\ref{graphOper:rec} --~\ref{graphOper:iter} представлены графы управления реализаций рекурсивного и нерекурсивного алгоритмов.
+\bigskip
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{images/oper_grapf_rec.pdf}
+	\caption{Граф управления реализации рекурсивного алгоритма}
+	\label{graphOper:rec}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{images/oper_grapf_iter.pdf}
+	\caption{Граф управления реализации нерекурсивного алгоритма}
+	\label{graphOper:iter}
+\end{figure}\
+
+\subsection{Информационный граф}
+На рисунках~\ref{graphInfo:rec} --~\ref{graphInfo:iter} представлены графы управления реализаций рекурсивного и нерекурсивного алгоритмов.
+\bigskip
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.65]{images/info_grapf_rec.pdf}
+	\caption{Информационный граф реализации рекурсивного алгоритма}
+	\label{graphInfo:rec}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.65]{images/info_grapf_iter.pdf}
+	\caption{Информационный граф реализации нерекурсивного алгоритма}
+	\label{graphInfo:iter}
+\end{figure}
+
+\subsection{Операционная история}
+
+На рисунках~\ref{graphOperH:rec} --~\ref{graphOperH:iter} представлены графы операционных историй реализаций рекурсивного и нерекурсивного алгоритмов при входных данных, соответствующих худшему случаю, то есть когда вся последовательность состоит из единиц. Длина последовательности $N = 5$.
+\bigskip
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{images/oper_h_grapf_rec.pdf}
+	\caption{Операционная история реализации рекурсивного алгоритма}
+	\label{graphOperH:rec}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{images/oper_h_grapf_iter.pdf}
+	\caption{Операционная история реализации нерекурсивного алгоритма}
+	\label{graphOperH:iter}
+\end{figure}
+
+\subsection{Информационная история}
+
+На рисунках~\ref{graphInfoH:rec} --~\ref{graphInfoH:iter} представлены графы информационных историй реализаций рекурсивного и нерекурсивного алгоритмов при входных данных, соответствующих худшему случаю, то есть когда вся последовательность состоит из единиц. Длина последовательности $N = 5$.
+\bigskip
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.45]{images/info_h_grapf_rec.pdf}
+	\caption{Информационная история реализации рекурсивного алгоритма}
+	\label{graphInfoH:rec}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.45]{images/info_h_grapf_iter.pdf}
+	\caption{Информационная история реализации нерекурсивного алгоритма}
+	\label{graphInfoH:iter}
+\end{figure}
+
+
+\section{Распараллеливание программ}
+\subsection{Реализация рекурсивного алгоритма}
+
+Анализируя графы~\ref{graphOper:rec} --~\ref{graphInfoH:iter}, нельзя выделить участки реализации рекурсивного алгоритма, которые могут быть исполнены параллельно, так как между всеми операторами есть информационные и операционные отношения.
+
+
+\subsection{Реализация нерекурсивного алгоритма}
+Анализируя графы~\ref{graphOper:rec} --~\ref{graphInfoH:iter}, нельзя выделить участки реализации нерекурсивного алгоритма, которые могут быть исполнены параллельно, так как между всеми операторами есть информационные и операционные отношения.
+
+
+\section{Вывод}
+
+В данном разделе были описаны реализации алгоритмов четырьмя графовыми моделями --- графом управления, информационным графом, операционной историей, информационной историей. Также были указаны участки каждой программы, которые могут быть исполнены параллельно, или отсутствие таковых.
+
+
+\clearpage

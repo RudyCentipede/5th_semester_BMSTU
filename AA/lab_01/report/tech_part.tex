@@ -1,0 +1,111 @@
+\chapter{Технологическая часть}
+
+\section{Средства реализации}
+
+Для реализации алгоритмов был выьран язык C. Выбор обусловлен тем, что С -- статически типизированный язык программирования, в нём нет сборщика мусора и имеется стандартная библиотека для замера процессорного времени.
+
+Для замера процессорного времени использовалась функция clock() из модуля time.~\cite{book_iso}
+
+\section{Реализация алгоритмов}
+
+В листингах~(\ref{lst:std} -~\ref{lst:owino}) показаны реализации алгоритмов умножения матриц: стандартного, Винограда и оптимизированного алгоритма Винограда.
+
+\bigskip
+
+\lstinputlisting[label=lst:std, firstline=42, lastline=55,  caption={Реализация стандартного алгоритма умножения матриц}, captionpos=b]{../code/matrix.c}
+
+\clearpage
+
+\lstinputlisting[label=lst:wino, firstline=57, lastline=90,  caption={Реализация алгоритма Винограда}, captionpos=b]{../code/matrix.c}
+
+\clearpage
+
+\lstinputlisting[label=lst:owino, firstline=92, lastline=145,  caption={Реализация оптимизированного алгоритма Винограда}, captionpos=b]{../code/matrix.c}
+\clearpage
+
+\section{Функциональные тесты}
+
+В таблице~\ref{table:tests} представлены результаты функционального тестирования реализаций: стандартного алгоритма умножения матриц, алгоритма Винограда и оптимизированного алгоритма Винограда. Каждая реализация каждого алгоритма прошла тесты успешно.
+\bigskip
+
+\begin{table}[ht]
+	\caption{Результаты функционального тестирования}
+	\label{table:tests}
+\begin{adjustbox}{max width=\textwidth}
+
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\multicolumn{2}{|c|}{\textbf{Входные данные}} & \multicolumn{2}{c|}{\textbf{Результат}} \\
+		\hline
+		\textbf{Матрица A} & \textbf{Матрица B} & \textbf{Ожидаемый} & \textbf{Фактический} \\
+		\hline
+		$\begin{pmatrix} 
+			1 & 2 \\ 
+			3 & 4 
+		\end{pmatrix}
+		$ & $()$ & \text{Ошибка} & \text{Ошибка} \\
+		\hline
+		$\begin{pmatrix} 
+			1 & 2 & 3 \\ 
+			4 & 5 & 6 \\ 
+			7 & 8 & 9 
+		\end{pmatrix}
+		$ & $(1, 2, 3)$ & \text{Ошибка} & \text{Ошибка} \\
+		\hline
+		$\begin{pmatrix} 
+			1 & 2 & 3 \\ 
+			4 & 5 & 6 \\ 
+			7 & 8 & 9 
+		\end{pmatrix}
+		$ & $
+		\begin{pmatrix} 
+			1 & 0 & 0 \\ 
+			0 & 1 & 0 \\ 
+			0 & 0 & 1 
+		\end{pmatrix}
+		$ & $
+		\begin{pmatrix} 
+			1 & 2 & 3 \\ 
+			4 & 5 & 6 \\ 
+			7 & 8 & 9 
+		\end{pmatrix}
+		$ & $
+		\begin{pmatrix} 
+			1 & 2 & 3 \\ 
+			4 & 5 & 6 \\ 
+			7 & 8 & 9 
+		\end{pmatrix}$ \\
+		\hline
+		$\begin{pmatrix} 
+			1 & 2 \\ 
+			3 & 4 \\ 
+			5 & 6 
+		\end{pmatrix}
+		$ & $
+		\begin{pmatrix} 
+			1 & 2 & 3 \\
+			4 & 5 & 6 
+		\end{pmatrix}
+		$ & $
+		\begin{pmatrix} 
+			9 & 12 & 15 \\ 
+			19 & 26 & 33 \\ 
+			29 & 40 & 51 
+		\end{pmatrix}
+		$ & $
+		\begin{pmatrix} 
+			9 & 12 & 15 \\ 
+			19 & 26 & 33 \\ 
+			29 & 40 & 51 
+		\end{pmatrix}$ \\
+		\hline
+	\end{tabular}
+\end{adjustbox}
+\end{table}
+
+
+\section{Вывод}
+
+В этом разделе были описаны средства реализации алгоритмов. Также были продемонстрированы листинги реализаций: стандартного алгоритма умножения матриц, алгоритма Винограда и оптимизированного алгоритма Винограда. Приведены результаты функционального тестирования.
+
+\clearpage
