@@ -1,0 +1,15 @@
+
+Child #1 exited with code 0
+0 aaaa
+4 bbbbbbbbbbb
+10 0
+
+Child #1 exited with code 0
+0 aaaa
+4 bbbbbbbbbbb
+10 0
+
+Child #2 exited with code 0
+0 aaaa
+4 bbbbbbbbbbb
+10 0
