@@ -1,0 +1,147 @@
+\chapter{Исследовательская часть}
+
+
+\section{Замеры времени}
+
+На рисунке~\ref{p1} представлены графики зависимостей времени выполнения запроса без изменения данных в БД на стороне БД и через Redis в качестве кэша.
+
+\begin{figure}[ht]
+\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm,
+			height=10cm,
+			grid=both,
+			xlabel={Индекс измерения},
+			ylabel={Время, мс},
+			legend style={at={(0.02,0.98)},anchor=north west},
+			]
+			
+			% DB line
+			\addplot table[
+			col sep=comma,
+			x expr=\coordindex,
+			y=db_ms
+			] {tables/none};
+			\addlegendentry{Postgres}
+			
+			% Cache line
+			\addplot table[
+			col sep=comma,
+			x expr=\coordindex,
+			y=cache_ms
+			] {tables/none};
+			\addlegendentry{Redis}
+			
+		\end{axis}
+\end{tikzpicture}
+\caption{Зависимости времени выполнения запросов на стороне БД и через Redis. Без изменения данных в БД}
+\label{p1}
+\end{figure}
+
+\clearpage
+На рисунке~\ref{p2} представлены графики зависимостей времени выполнения запроса добавления новых строк в БД на стороне БД и через Redis в качестве кэша.
+
+\begin{figure}[ht]
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm,
+			height=10cm,
+			grid=both,
+			xlabel={Индекс измерения},
+			ylabel={Время, мс},
+			legend style={anchor=north east},
+			]
+			
+			% DB line
+			\addplot table[
+			col sep=comma,
+			x expr=\coordindex,
+			y=db_ms
+			] {tables/insert};
+			\addlegendentry{Postgres}
+			
+			% Cache line
+			\addplot table[
+			col sep=comma,
+			x expr=\coordindex,
+			y=cache_ms
+			] {tables/insert};
+			\addlegendentry{Redis}
+			
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Зависимости времени выполнения запросов на стороне БД и через Redis. Добавление новых строк}
+	\label{p2}
+\end{figure}
+\clearpage
+
+На рисунке~\ref{p3} представлены графики зависимостей времени выполнения запроса удаления строк в БД на стороне БД и через Redis в качестве кэша.
+
+\begin{figure}[ht]
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm,
+			height=10cm,
+			grid=both,
+			xlabel={Индекс измерения},
+			ylabel={Время, мс},
+			legend style={anchor=north east},
+			]
+			
+			% DB line
+			\addplot table[
+			col sep=comma,
+			x expr=\coordindex,
+			y=db_ms
+			] {tables/delete};
+			\addlegendentry{Postgres}
+			
+			% Cache line
+			\addplot table[
+			col sep=comma,
+			x expr=\coordindex,
+			y=cache_ms
+			] {tables/delete};
+			\addlegendentry{Redis}
+			
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Зависимости времени выполнения запросов на стороне БД и через Redis. Удаление строк}
+	\label{p3}
+\end{figure}
+\clearpage
+
+На рисунке~\ref{p4} представлены графики зависимостей времени выполнения запроса изменения строк в БД на стороне БД и через Redis в качестве кэша.
+
+\begin{figure}[ht]
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm,
+			height=10cm,
+			grid=both,
+			xlabel={Индекс измерения},
+			ylabel={Время, мс},
+			legend style={anchor=north east},
+			]
+			
+			% DB line
+			\addplot table[
+			col sep=comma,
+			x expr=\coordindex,
+			y=db_ms
+			] {tables/update};
+			\addlegendentry{Postgres}
+			
+			% Cache line
+			\addplot table[
+			col sep=comma,
+			x expr=\coordindex,
+			y=cache_ms
+			] {tables/update};
+			\addlegendentry{Redis}
+			
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Зависимости времени выполнения запросов на стороне БД и через Redis. Изменение строк}
+	\label{p4}
+\end{figure}
